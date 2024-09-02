@@ -1,0 +1,14 @@
+{
+    "name": "static-website",
+    "version": "1.0.0",
+    "description": "A simple static website",
+    "main": "index.html",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "build": "echo \"Building the static website...\"",
+      "start": "echo \"Starting the static website...\""
+    },
+    "author": "",
+    "license": "ISC"
+  }
+  
