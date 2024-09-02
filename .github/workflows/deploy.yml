@@ -1,9 +1,17 @@
 name: Deploy
 
 on:
-  push:
-    branches:
-      - main
+  workflow_call:
+    inputs:
+      node-version:
+        required: true
+        type: string
+      s3-bucket:
+        required: true
+        type: string
+      distribution-id:
+        required: true
+        type: string
 
 jobs:
   deploy:
@@ -16,7 +24,7 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '14'
+        node-version: ${{ inputs.node-version }}
 
     - name: Install dependencies
       run: npm install
@@ -26,5 +34,5 @@ jobs:
 
     - name: Deploy to S3
       run: |
-        aws s3 sync ./dist s3://your-s3-bucket-name --delete
-        aws cloudfront create-invalidation --distribution-id YOUR_DISTRIBUTION_ID --paths "/*"
+        aws s3 sync ./dist s3://${{ inputs.s3-bucket }} --delete
+        aws cloudfront create-invalidation --distribution-id ${{ inputs.distribution-id }} --paths "/*"
