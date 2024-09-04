@@ -1,12 +1,13 @@
 name: Test
 
 on:
-  workflow_call:
+  workflow_call: # Triggered manually or by other workflows
 
 jobs:
   test:
     runs-on: [self-hosted, static-web]
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
       - name: Validate HTML files
         run: echo 'No tests available for static site.'

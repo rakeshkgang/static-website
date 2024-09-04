@@ -1,12 +1,13 @@
 name: Build
 
 on:
-  workflow_call:
+  workflow_call: # Triggered manually or by other workflows
 
 jobs:
   build:
     runs-on: [self-hosted, static-web]
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
       - name: Build static site
         run: echo 'Building the static website...'
