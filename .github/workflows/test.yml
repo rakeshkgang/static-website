@@ -5,7 +5,7 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, static-web]
     steps:
       - uses: actions/checkout@v3
       - name: Validate HTML files
