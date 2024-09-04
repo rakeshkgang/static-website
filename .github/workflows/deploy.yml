@@ -2,37 +2,16 @@ name: Deploy
 
 on:
   workflow_call:
-    inputs:
-      node-version:
-        required: true
-        type: string
-      s3-bucket:
-        required: true
-        type: string
-      distribution-id:
-        required: true
-        type: string
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ inputs.node-version }}
-
-    - name: Install dependencies
-      run: npm install
-
-    - name: Build the project
-      run: npm run build
-
-    - name: Deploy to S3
-      run: |
-        aws s3 sync ./dist s3://${{ inputs.s3-bucket }} --delete
-        aws cloudfront create-invalidation --distribution-id ${{ inputs.distribution-id }} --paths "/*"
+      - uses: actions/checkout@v3
+      - name: Deploy to S3
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: "us-east-1"
+        run: |
+          aws s3 sync . s3://test-gitaction-workflow --exclude ".git/*" --delete
