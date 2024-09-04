@@ -1,27 +1,21 @@
-name: CI
+name: CI Pipeline
 
 on:
-  workflow_call:
-    inputs:
-      node-version:
-        required: true
-        type: string
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  ci:
-    runs-on: ubuntu-latest
+  build:
+    uses: ./.github/workflows/build.yml
 
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+  test:
+    needs: build
+    uses: ./.github/workflows/test.yml
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ inputs.node-version }}
-
-    - name: Install dependencies
-      run: npm install
-
-    - name: Run tests
-      run: npm test
+  deploy:
+    needs: test
+    uses: ./.github/workflows/deploy.yml
