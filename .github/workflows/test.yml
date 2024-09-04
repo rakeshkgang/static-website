@@ -5,7 +5,7 @@ on:
 
 jobs:
   test:
-    runs-on: [self-hosted, static-web]
+    runs-on: [self-hosted, test-statc]
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
